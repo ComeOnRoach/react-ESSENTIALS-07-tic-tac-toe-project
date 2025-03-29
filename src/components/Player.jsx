@@ -2,28 +2,30 @@ import { useState } from "react";
 
 function Player({ name, symbol, isActive, onChangeName }) {
   const [isEditing, setIsEditing] = useState(false);
-  // const [playerName, setNewName] = useState(name);
+  const [playerName, setNewName] = useState(name);
   let btnCaption = "Edit";
   function handleEditClick() {
     setIsEditing((editing) => !editing);
+    if(isEditing){
+      onChangeName(playerName, symbol);
+    }
   }
 
-  // function handleChangeFieldValue(event) {
-  //     console.log(event.target.slot)
-  //     setNewName(event.target.value);
-  // }
+  function handleChangeFieldValue(event) {
+      console.log(event.target.slot)
+      setNewName(event.target.value);
+  }
 
-  let playerNameEditSwitcher = <span className="player-name">{name}</span>;
+  let playerNameEditSwitcher = <span className="player-name">{playerName}</span>;
 
   if (isEditing) {
     btnCaption = "Save";
     playerNameEditSwitcher = (
       <input
-        onChange={onChangeName}
+        onChange={handleChangeFieldValue}
         type="text"
         placeholder="Enter a name"
-        value={name}
-        slot={symbol}
+        value={playerName}
         maxLength={12}
         required
       />
